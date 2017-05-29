@@ -26,10 +26,16 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #include "FaceAlignment.h"
+#include <iostream>
+#include <cstring>
+#include <string>
+#include <cstdlib>
+
 using namespace std;
 using namespace cv;
 
 int main(){
+    
     int img_num = 1345;
     int candidate_pixel_num = 400;
     int fern_pixel_num = 5;
@@ -37,13 +43,15 @@ int main(){
     int second_level_num = 500; 
     int landmark_num = 29;
     int initial_number = 20;
+    
     vector<Mat_<uchar> > images;
     vector<BoundingBox> bbox; 
     
     cout<<"Read images..."<<endl;
     for(int i = 0;i < img_num;i++){
-        string image_name = "./../../../Data/COFW_Dataset/trainingImages/";
-        image_name = image_name + to_string(i+1) + ".jpg";
+        string image_name = "./Data/COFW_Dataset/trainingImages/";
+        char buff[15]; sprintf(buff,"%d",i+1);
+        image_name = image_name + buff + ".jpg";
         Mat_<uchar> temp = imread(image_name,0);
         images.push_back(temp);
     }
@@ -51,7 +59,7 @@ int main(){
     vector<Mat_<double> > ground_truth_shapes;
     vector<BoundingBox> bounding_box;
     ifstream fin;
-    fin.open("./../../../Data/COFW_Dataset/boundingbox.txt");
+    fin.open("./Data/COFW_Dataset/boundingbox.txt");
     for(int i = 0;i < img_num;i++){
         BoundingBox temp;
         fin>>temp.start_x>>temp.start_y>>temp.width>>temp.height;
@@ -61,7 +69,7 @@ int main(){
     }
     fin.close(); 
 
-    fin.open("./../../../Data/COFW_Dataset/keypoints.txt");
+    fin.open("./Data/COFW_Dataset/keypoints.txt");
     for(int i = 0;i < img_num;i++){
         Mat_<double> temp(landmark_num,2);
         for(int j = 0;j < landmark_num;j++){

@@ -25,6 +25,9 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #include "FaceAlignment.h"
+#include <string>
+#include <cstring>
+
 using namespace std;
 using namespace cv;
 
@@ -182,7 +185,7 @@ Mat_<double> ShapeRegressor::Predict(const Mat_<uchar>& image, const BoundingBox
 void ShapeRegressor::Load(string path){
     cout<<"Loading model..."<<endl;
     ifstream fin;
-    fin.open(path);
+    fin.open(path.c_str());
     this->Read(fin); 
     fin.close();
     cout<<"Model loaded successfully..."<<endl;
@@ -191,7 +194,7 @@ void ShapeRegressor::Load(string path){
 void ShapeRegressor::Save(string path){
     cout<<"Saving model..."<<endl;
     ofstream fout;
-    fout.open(path);
+    fout.open(path.c_str());
     this->Write(fout);
     fout.close();
 }

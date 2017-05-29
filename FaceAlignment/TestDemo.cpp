@@ -38,12 +38,13 @@ int main(){
     ifstream fin;
 
     for(int i = 0;i < test_img_num;i++){
-        string image_name = "./../../../Data/COFW_Dataset/testImages/";
-        image_name = image_name + to_string(i+1) + ".jpg";
+        string image_name = "./Data/COFW_Dataset/testImages/";
+        char buff[30]; sprintf(buff,"%d",i + 1);
+        image_name = image_name + buff + ".jpg";
         Mat_<uchar> temp = imread(image_name,0);
         test_images.push_back(temp);
     }
-    fin.open("./../../../Data/COFW_Dataset/boundingbox_test.txt");
+    fin.open("./Data/COFW_Dataset/boundingbox_test.txt");
     for(int i = 0;i < test_img_num;i++){
         BoundingBox temp;
         fin>>temp.start_x>>temp.start_y>>temp.width>>temp.height;
@@ -62,9 +63,12 @@ int main(){
 
         Mat_<double> current_shape = regressor.Predict(test_images[index],test_bounding_box[index],initial_number);
         Mat test_image_1 = test_images[index].clone();
+        cout << landmark_num << endl;
         for(int i = 0;i < landmark_num;i++){
-            circle(test_image_1,Point2d(current_shape(i,0),current_shape(i,1)),3,Scalar(255,0,0),-1,8,0);
+            circle(test_image_1,Point2d(current_shape(i,0),current_shape(i,1)),3,Scalar(255,244,244),-1,8,0);
+            cout << current_shape(i,0) << " " << current_shape(i,1) << endl;
         }
+        circle(test_image_1,Point2d(10,10),3,Scalar(254,122,123),-1,8,0);
         imshow("result",test_image_1);
         waitKey(0);
     }
