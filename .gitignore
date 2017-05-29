@@ -11,6 +11,7 @@
 *.lai
 *.la
 *.a
+*.jpg
 
 CMakeCache.txt
 CMakeFiles
